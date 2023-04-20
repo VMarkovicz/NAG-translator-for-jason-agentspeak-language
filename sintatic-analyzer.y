@@ -4,7 +4,6 @@
     #include "header.h" 
 %}
 
-%token NUMBER
 %token NAME
 %token CRENCA
 %token OBJETIVO
@@ -15,7 +14,7 @@
 
 %token EOL
 
-%agentlist;
+%start agentlist;
 
 %%
 agent: CRENCA':' Lcrencas OBJETIVO':' Lobjetivos PLANO':' Lplanos;
@@ -46,6 +45,7 @@ formulasCorpo: NAME;
 
 agentlist: /*vazio*/
     | agentlist agent EOL
+    {printf("start");}
     ;
 
 %%
