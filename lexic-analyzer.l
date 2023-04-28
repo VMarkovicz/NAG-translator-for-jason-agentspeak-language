@@ -3,7 +3,7 @@
 %{
 #include "header.h" 
 #include <stdio.h>
-#include "sintatic-analyser.tab.h"
+#include "sintatic-analyzer.tab.h"
 %}
 
 %%

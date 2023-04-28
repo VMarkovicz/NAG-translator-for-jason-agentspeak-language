@@ -23,7 +23,7 @@ struct plans{
     struct plans *next;
 };
 
-void createAgent(struct agent **agentlist, char *name, struct beliefs **beliefs, struct goals **goals, struct plans **plans);
+void createAgent(struct agent **agentlist, char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans);
 void createBelief(struct beliefs **beliefslist, char *belief1, char *belief2);
 void createGoal(struct goals **goalslist, char *goal1, char *goal2);
 void createPlan(struct plans **planslist, char *plan1, char *plan2);

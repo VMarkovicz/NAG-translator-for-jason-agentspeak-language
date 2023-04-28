@@ -41,20 +41,20 @@ extern struct plans *plansList;
 %start agentlist;
 
 %%
-agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent(&agentList, $1, &beliefsList, &goalsList, &plansList);}
+agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { createAgent(&agentList, $1, beliefsList, goalsList, plansList);}
     ;
 Lcrencas: /*Vazio*/ { $$ = NULL; }
-    | nomeCrenca ';' Lcrencas    { $$ = createBelief(&beliefsList, $1, $3); }
+    | nomeCrenca ';' Lcrencas    { createBelief(&beliefsList, $1, $3); }
     ;
-nomeCrenca: NAME    { $$ = $1 }
+nomeCrenca: NAME    { $$ = $1; }
     ;
 Lobjetivos: /*Vazio*/ { $$ = NULL; }
-    | nomeObjetivo ';' Lobjetivos { $$ = createGoal(&goalsList, $1, $3);}
+    | nomeObjetivo ';' Lobjetivos { createGoal(&goalsList, $1, $3);}
     ;
-nomeObjetivo: NAME  { $$ = $1 }
+nomeObjetivo: NAME  { $$ = $1; }
     ;
 Lplanos: /*Vazio*/ { $$ = NULL; }
-    | nomePlano ';' Lplanos  { $$ = createPlan(&plansList ,$1, $3);}
+    | nomePlano ';' Lplanos  { createPlan(&plansList ,$1, $3);}
     ;
 nomePlano: NAME tuplaPlano { $$ = $2; } 
     ;
@@ -62,7 +62,7 @@ tuplaPlano: '('eventoGatilho';'contexto';' '{' corpo '}' ')' { $$ = concatenateT
     ;
 eventoGatilho: NAME { $$ = $1; }   //sem :
     ;
-contexto: /*Vazio*/ 
+contexto: /*Vazio*/     { $$ = NULL;}
     | expressaoLogica   { $$ = $1; }    //sem ;
     | NAME              { $$ = $1; }    //sem ;
     ;
