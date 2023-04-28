@@ -41,15 +41,15 @@ extern struct plans *plansList;
 %start agentlist;
 
 %%
-agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'
+agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent(&agentList, $1, &beliefsList, &goalsList, &plansList);}
     ;
 Lcrencas: /*Vazio*/ { $$ = NULL; }
-    | nomeCrenca ';' Lcrencas    { $$ = createBelief($1); }
+    | nomeCrenca ';' Lcrencas    { $$ = createBelief(&beliefsList, $1, $3); }
     ;
 nomeCrenca: NAME    { $$ = $1 }
     ;
 Lobjetivos: /*Vazio*/ { $$ = NULL; }
-    | nomeObjetivo ';' Lobjetivos { $$ = createGoal($1);}
+    | nomeObjetivo ';' Lobjetivos { $$ = createGoal(&goalsList, $1, $3);}
     ;
 nomeObjetivo: NAME  { $$ = $1 }
     ;

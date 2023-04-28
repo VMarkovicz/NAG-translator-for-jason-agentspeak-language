@@ -9,16 +9,22 @@ struct beliefs *beliefslist = NULL;
 struct goals *goalslist = NULL;
 struct plans *planslist = NULL;
 
-void createAgent(struct agent **agentlist, char *name1, char *name2){
+void createAgent(struct agent **agentlist, char *name, struct beliefs **beliefs, struct goals **goals, struct plans **plans){
     if(!*agentlist){
-        *agentlist = malloc(sizeof(struct agent));
-        (*agentlist)->name = name1;
-        (*agentlist)->next = name2;
+        (*agentlist) = malloc(sizeof(struct agent));
+        (*agentlist)->name = strcat(name, ".asl");
+        (*agentlist)->beliefs = *beliefs;
+        (*agentlist)->goals = *goals;
+        (*agentlist)->plans = *plans;
+        (*agentlist)->next = NULL;
     }
     else{
         struct agent *aux = malloc(sizeof(struct agent));
-        aux->name = name1;
-        aux->next = agentlist;
+        aux->name = name;
+        aux->beliefs = *beliefs;
+        aux->goals = *goals;
+        aux->plans = *plans;
+        aux->next = *agentlist;
         *agentlist = aux;
     }
 }
@@ -100,9 +106,18 @@ char *concatenateBody(char *name1, char *name2) {
 }
 
 void printAgent(struct agent *agentlist) {
-
+    //criar arquivo .asl usando o nome do agente como nome do arquivo
+    FILE *fp;
+    fp = fopen(agentlist->name, "w");
+    if (fp == NULL) {
+        printf("Erro ao criar arquivo .asl\n");
+        exit(1);
+    }
+    
+    
 }
 
 int main() {
 
+    return 0;
 }
