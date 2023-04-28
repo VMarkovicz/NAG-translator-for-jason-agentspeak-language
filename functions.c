@@ -9,7 +9,7 @@ struct beliefs *beliefslist = NULL;
 struct goals *goalslist = NULL;
 struct plans *planslist = NULL;
 
-void createAgent(struct agent **agentlist, char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans){
+struct agent *createAgent(struct agent *agentlist, char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans){
     if(!*agentlist){
         (*agentlist) = malloc(sizeof(struct agent));
         (*agentlist)->name = strcat(name, ".asl");
@@ -27,9 +27,10 @@ void createAgent(struct agent **agentlist, char *name, struct beliefs *beliefs, 
         aux->next = *agentlist;
         *agentlist = aux;
     }
+    return agentlist;
 }
 
-void createBelief(struct beliefs **beliefslist, char *belief1, char *belief2) {
+struct beliefs *createBelief(struct beliefs *beliefslist, char *belief1, struct beliefs *belief2) {
     if(!*beliefslist){
         *beliefslist = malloc(sizeof(struct beliefs));
         (*beliefslist)->name = belief1;
@@ -41,9 +42,10 @@ void createBelief(struct beliefs **beliefslist, char *belief1, char *belief2) {
         aux->next = beliefslist;
         *beliefslist = aux;
     }
+    return beliefslist;
 }
 
-void createGoals(struct goals **goalslist, char *goal1, char *goal2) {
+struct goals *createGoals(struct goals *goalslist, char *goal1, struct goals *goal2) {
     if(!*goalslist){
         *goalslist = malloc(sizeof(struct goals));
         (*goalslist)->name = goal1;
@@ -55,9 +57,10 @@ void createGoals(struct goals **goalslist, char *goal1, char *goal2) {
         aux->next = goalslist;
         *goalslist = aux;
     }
+    return goalslist;
 }
 
-void createPlans(struct plans **planslist, char *plan1, char *plan2) {
+struct plans *createPlans(struct plans *planslist, char *plan1, struct plans *plan2) {
     if (!*planslist) {
         *planslist = malloc(sizeof(struct plans));
         (*planslist)->name = plan1;
@@ -68,6 +71,7 @@ void createPlans(struct plans **planslist, char *plan1, char *plan2) {
         aux->next = planslist;
         *planslist = aux;
     }
+    return planslist;
 }
 
 char *concatenateTuple(char *eventoGatilho, char *contexto, char *corpo) {
