@@ -1,38 +1,35 @@
 /*estrutura de dados*/
-struct symbol{
-    char *name;
-    struct beliefslist *beliefs;
-    struct goalslist *goals;
-    struct planslist *plans;
-};
 
-struct beliefslist{
-    char *sym;
-    struct beliefs *next;
+struct agent{
+    char *name;
+    struct beliefs *beliefs;
+    struct goals *goals;
+    struct plans *plans;
+    struct agent *next;
 };
 
 struct beliefs{
-    char *sym;
-    struct belief *next;
-};
-
-struct goalslist{
-    char *sym;
-    struct goals *next;
+    char *name;
+    struct beliefs *next;
 };
 
 struct goals{
-    char *sym;
-    struct goal *next;
-};
-
-struct planslist{
-    char *sym;
-    struct plans *next;
+    char *name;
+    struct goals *next;
 };
 
 struct plans{
-    char *sym;
-    struct plan *next;
+    char *name;
+    struct plans *next;
 };
+
+void createAgent(struct agent **agentlist, char *name1, char *name2);
+void createBelief(struct beliefs **beliefslist, char *belief1, char *belief2);
+void createGoal(struct goals **goalslist, char *goal1, char *goal2);
+void createPlan(struct plans **planslist, char *plan1, char *plan2);
+char *concatenateTuple(char *eventoGatilho, char *contexto, char *corpo);
+char *concatenateExpression(char *name1, char *op, char *name2);
+char *concatenateBody(char *name1, char *name2);
+
+void printAgent(struct agent *agentlist);
 

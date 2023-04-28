@@ -7,6 +7,7 @@
 %}
 
 %%
+[(){};:]        { return yytext[0];}
 "E"             { return E; }
 "OU"            { return OU; }
 "NAO"           { return NAO; }
