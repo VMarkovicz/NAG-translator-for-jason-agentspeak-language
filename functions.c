@@ -22,7 +22,7 @@ struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goa
     }
     else{
         struct agent *aux = malloc(sizeof(struct agent));
-        aux->name = name;
+        aux->name = strcat(name, ".asl");
         aux->beliefs = beliefs;
         aux->goals = goals;
         aux->plans = plans;
