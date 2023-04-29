@@ -6,7 +6,7 @@
 %}
 
 %union {
-    struct agent *agentList;
+    struct agent *agent;
     struct beliefs *beliefs;
     struct goals *goals;
     struct plans *plans;
@@ -21,7 +21,7 @@
 %token <name>OU
 %token <name>NAO
 
-%type <agentList>agent
+%type <agent>agent
 %type <beliefs>Lcrencas
 %type <goals>Lobjetivos
 %type <plans>Lplanos
@@ -35,7 +35,7 @@
 %start agent;
 
 %%
-agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15);}
+agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15); printAgent($$);}
     ;
 Lcrencas: /*Vazio*/ { $$ = NULL; }
     | nomeCrenca ';' Lcrencas    { $$ = createBelief($1, $3); }
