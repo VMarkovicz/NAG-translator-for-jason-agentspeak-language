@@ -12,6 +12,7 @@ struct goals *goalslist = NULL;
 struct plans *planslist = NULL;
 
 struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans){
+    printf("CREATE AGENT\n");
     if(!agentlist){
         agentlist = malloc(sizeof(struct agent));
         agentlist->name = strcat(name, ".asl");
@@ -33,6 +34,7 @@ struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goa
 }
 
 struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
+    printf("CREATE BELIEF\n");
     if(!beliefslist){
         beliefslist = malloc(sizeof(struct beliefs));
         beliefslist->name = belief1;
@@ -48,6 +50,7 @@ struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
 }
 
 struct goals *createGoal(char *goal1, struct goals *goal2) {
+    printf("CREATE GOAL\n");
     if(!goalslist){
         goalslist = malloc(sizeof(struct goals));
         goalslist->name = goal1;
@@ -63,13 +66,16 @@ struct goals *createGoal(char *goal1, struct goals *goal2) {
 }
 
 struct plans *createPlan(char *plan1, struct plans *plan2) {
-    if(planslist){
-        planslist = malloc(sizeof(struct plans));
+    printf("CREATE PLAN\n");
+    if(!planslist){
+        printf("CREATE PLAN --- 2\n");
+        planslist = (struct plans *) malloc(sizeof(struct plans));
+        printf("CREATE PLAN --- 3\n");
         planslist->name = plan1;
         planslist->next = plan2;
     }
     else{
-        struct plans *aux = malloc(sizeof(struct plans));
+        struct plans *aux = (struct plans*) malloc(sizeof(struct plans));
         aux->name = plan1;
         aux->next = planslist;
         planslist = aux;
@@ -78,7 +84,8 @@ struct plans *createPlan(char *plan1, struct plans *plan2) {
 }
 
 char *concatenateTuple(char *eventoGatilho, char *contexto, char *corpo) {
-    char *tuple = malloc(sizeof(char) * (strlen(eventoGatilho) + strlen(contexto) + strlen(corpo) + 1));
+    printf("CONCATENATE TUPLE\n");
+    char *tuple = (char *) malloc(sizeof(char) * (strlen(eventoGatilho) + strlen(contexto) + strlen(corpo) + 1));
     strcpy(tuple, "+!");
     strcat(tuple, eventoGatilho);
     strcat(tuple, ": ");
@@ -89,21 +96,34 @@ char *concatenateTuple(char *eventoGatilho, char *contexto, char *corpo) {
 }
 
 char *concatenateExpression(char *name1, char *op, char *name2) {
-    char *expression = malloc(sizeof(char) * (strlen(name1) + strlen(op) + strlen(name2) + 1));
-    strcpy(expression, name1);
-    strcat(expression, op);
-    strcat(expression, name2);
+    printf("CONCATENATE EXPRESSION\n");
+    char *expression = NULL;
+    if(!name1){
+        expression = (char *) malloc(sizeof(char) * (strlen(op) + strlen(name2) + 1));
+        strcpy(expression, op);
+        strcat(expression, name2);
+    } else{
+        expression = (char *) malloc(sizeof(char) * (strlen(name1) + strlen(op) + strlen(name2) + 1));
+        strcpy(expression, name1);
+        strcat(expression, op);
+        strcat(expression, name2);
+    }
     return expression;
 }
 
 char *concatenateBody(char *name1, char *name2) {
-    char *body = malloc(sizeof(char) * (strlen(name1) + strlen(name2) + 1));
-    
+    printf("CONCATENATE BODY\n");
+    char *body = NULL;
+    if(!name2){
+        body = (char *) malloc(sizeof(char) * (strlen(name1) + 1));
+    } else {
+        body = (char *) malloc(sizeof(char) * (strlen(name1) + strlen(name2) + 1));
+    }
+ 
     if(!name2){
         strcpy(body, name1);
         strcat(body, " . ");
-    }
-    else{
+    } else {
         strcpy(body, name1);
         strcat(body, " ; ");
         strcat(body, name2);
@@ -112,6 +132,7 @@ char *concatenateBody(char *name1, char *name2) {
 }
 
 void printAgent(struct agent *agentlist) {
+    printf("PRINT AGENT\n");
     if(!agentlist){
         return;
     }
