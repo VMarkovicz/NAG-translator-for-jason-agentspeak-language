@@ -1,12 +1,8 @@
 /* Analisador Sintatico */
 %{
 #include <stdio.h>
-#include "header.h" 
-
-extern struct agent *agentList;
-extern struct beliefs *beliefsList;
-extern struct goals *goalsList;
-extern struct plans *plansList;
+#include <stdlib.h>
+#include "header.h"
 %}
 
 %union {
@@ -25,8 +21,6 @@ extern struct plans *plansList;
 %token <name>OU
 %token <name>NAO
 
-%token EOL
-
 %type <agentList>agent
 %type <beliefs>Lcrencas
 %type <goals>Lobjetivos
@@ -38,23 +32,23 @@ extern struct plans *plansList;
 %type <name>tuplaPlano
 %type <name>corpo
 
-%start agentlist;
+%start agent;
 
 %%
-agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent(agentList, $1, beliefsList, goalsList, plansList);}
+agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15);}
     ;
 Lcrencas: /*Vazio*/ { $$ = NULL; }
-    | nomeCrenca ';' Lcrencas    { $$ = createBelief(beliefsList, $1, $3); }
+    | nomeCrenca ';' Lcrencas    { $$ = createBelief($1, $3); }
     ;
 nomeCrenca: NAME    { $$ = $1; }
     ;
 Lobjetivos: /*Vazio*/ { $$ = NULL; }
-    | nomeObjetivo ';' Lobjetivos { $$ = createGoal(goalsList, $1, $3);}
+    | nomeObjetivo ';' Lobjetivos { $$ = createGoal($1, $3);}
     ;
 nomeObjetivo: NAME  { $$ = $1; }
     ;
 Lplanos: /*Vazio*/ { $$ = NULL; }
-    | nomePlano ';' Lplanos  { $$ = createPlan(plansList ,$1, $3);}
+    | nomePlano ';' Lplanos  { $$ = createPlan($1, $3);}
     ;
 nomePlano: NAME tuplaPlano { $$ = $2; } 
     ;
@@ -74,10 +68,6 @@ corpo: /*Vazio*/ { $$ = NULL; }
     | formulasCorpo ';' corpo   { $$ = concatenateBody($1, $3); }   //com ; e . mas sem {}
     ;
 formulasCorpo: NAME { $$ = $1; }
-    ;
-agentlist: /*vazio*/
-    | agentlist agent EOL
-    {printf("start");}
     ;
 
 %%

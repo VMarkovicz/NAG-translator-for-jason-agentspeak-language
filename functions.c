@@ -1,22 +1,24 @@
 /*Implementação de funcoes auxiliares em C*/
-#include "header.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
+#include "header.h"
 
 struct agent *agentlist = NULL;
 struct beliefs *beliefslist = NULL;
 struct goals *goalslist = NULL;
 struct plans *planslist = NULL;
 
-struct agent *createAgent(struct agent *agentlist, char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans){
-    if(!*agentlist){
-        (*agentlist) = malloc(sizeof(struct agent));
-        (*agentlist)->name = strcat(name, ".asl");
-        (*agentlist)->beliefs = beliefs;
-        (*agentlist)->goals = goals;
-        (*agentlist)->plans = plans;
-        (*agentlist)->next = NULL;
+struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goals, struct plans *plans){
+    if(!agentlist){
+        agentlist = malloc(sizeof(struct agent));
+        agentlist->name = strcat(name, ".asl");
+        agentlist->beliefs = beliefs;
+        agentlist->goals = goals;
+        agentlist->plans = plans;
+        agentlist->next = NULL;
     }
     else{
         struct agent *aux = malloc(sizeof(struct agent));
@@ -24,52 +26,53 @@ struct agent *createAgent(struct agent *agentlist, char *name, struct beliefs *b
         aux->beliefs = beliefs;
         aux->goals = goals;
         aux->plans = plans;
-        aux->next = *agentlist;
-        *agentlist = aux;
+        aux->next = agentlist;
+        agentlist = aux;
     }
     return agentlist;
 }
 
-struct beliefs *createBelief(struct beliefs *beliefslist, char *belief1, struct beliefs *belief2) {
-    if(!*beliefslist){
-        *beliefslist = malloc(sizeof(struct beliefs));
-        (*beliefslist)->name = belief1;
-        (*beliefslist)->next = belief2;
+struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
+    if(!beliefslist){
+        beliefslist = malloc(sizeof(struct beliefs));
+        beliefslist->name = belief1;
+        beliefslist->next = belief2;
     }
     else{
         struct beliefs *aux = malloc(sizeof(struct beliefs));
         aux->name = belief1;
         aux->next = beliefslist;
-        *beliefslist = aux;
+        beliefslist = aux;
     }
     return beliefslist;
 }
 
-struct goals *createGoals(struct goals *goalslist, char *goal1, struct goals *goal2) {
-    if(!*goalslist){
-        *goalslist = malloc(sizeof(struct goals));
-        (*goalslist)->name = goal1;
-        (*goalslist)->next = goal2;
+struct goals *createGoal(char *goal1, struct goals *goal2) {
+    if(!goalslist){
+        goalslist = malloc(sizeof(struct goals));
+        goalslist->name = goal1;
+        goalslist->next = goal2;
     }
     else{
         struct goals *aux = malloc(sizeof(struct goals));
         aux->name = goal1;
         aux->next = goalslist;
-        *goalslist = aux;
+        goalslist = aux;
     }
     return goalslist;
 }
 
-struct plans *createPlans(struct plans *planslist, char *plan1, struct plans *plan2) {
-    if (!*planslist) {
-        *planslist = malloc(sizeof(struct plans));
-        (*planslist)->name = plan1;
-        (*planslist)->next = plan2;
-    } else {
+struct plans *createPlan(char *plan1, struct plans *plan2) {
+    if(planslist){
+        planslist = malloc(sizeof(struct plans));
+        planslist->name = plan1;
+        planslist->next = plan2;
+    }
+    else{
         struct plans *aux = malloc(sizeof(struct plans));
         aux->name = plan1;
         aux->next = planslist;
-        *planslist = aux;
+        planslist = aux;
     }
     return planslist;
 }
@@ -99,14 +102,13 @@ char *concatenateBody(char *name1, char *name2) {
     if(!name2){
         strcpy(body, name1);
         strcat(body, " . ");
-        return body;
     }
     else{
         strcpy(body, name1);
         strcat(body, " ; ");
         strcat(body, name2);
-        return body;
     }
+    return body;
 }
 
 void printAgent(struct agent *agentlist) {
@@ -143,11 +145,19 @@ void printAgent(struct agent *agentlist) {
     }
 }
 
-int main(int argc, char **argv) {
+void yyerror(char *s, ...) {
+    va_list ap;
+    va_start(ap, s);
+    fprintf(stderr, "%d: error: ", yylineno);
+    vfprintf(stderr, s, ap);
+    fprintf(stderr, "\n");
+}
+
+int main(int argc, char *argv[]) {
     int i;
 
     if(argc<2){
-        yylex();
+        yyparse();
         return(0);
     }
 
@@ -160,8 +170,10 @@ int main(int argc, char **argv) {
         }
 
         yyrestart(f);
-        yylex();
+        yylineno = 1;
+        yyparse();
         fclose(f);        
     }
     return 0;
 }
+
