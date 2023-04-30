@@ -32,6 +32,7 @@ struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goa
 }
 
 struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
+    strcat(belief1, ".");
     struct beliefs *beliefs = (struct beliefs *) malloc(sizeof(struct beliefs));
     beliefs->beliefs = belief1;
     beliefs->next = belief2;
@@ -39,8 +40,12 @@ struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
 }
 
 struct goals *createGoal(char *goal1, struct goals *goal2) {
+    char *aux = malloc(sizeof(char) * (strlen(goal1) + 3));
+    strcpy(aux, "!");
+    strcat(aux, goal1);
+    strcat(aux, ".");
     struct goals *goals = (struct goals *) malloc(sizeof(struct goals));
-    goals->goals = goal1;
+    goals->goals = aux;
     goals->next = goal2;
     return goals;
 }
@@ -107,13 +112,13 @@ void printAgent(struct agent *agentlist) {
 
         //beliefs
         while(agentlist->beliefs){
-            fprintf(fp, "%s.\n", agentlist->beliefs->beliefs);
+            fprintf(fp, "%s\n", agentlist->beliefs->beliefs);
             agentlist->beliefs = agentlist->beliefs->next;
         }
 
         //goals
         while(agentlist->goals){
-            fprintf(fp, "!%s.\n", agentlist->goals->goals);
+            fprintf(fp, "%s\n", agentlist->goals->goals);
             agentlist->goals = agentlist->goals->next;
         }
 
