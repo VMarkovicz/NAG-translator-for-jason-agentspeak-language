@@ -38,3 +38,5 @@ char *createExpression(char *name1, char *op, char *name2);
 char *createBody(char *body1, char *body2);
 
 void printAgent(struct agent *agentlist);
+void printAgentList(struct agent *agentlist);
+void copyList(struct agent *agentlist);

@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include "header.h"
 
+struct agent *listaAgentes = NULL;
 struct agent *concatenateAgent(struct agent *agentlist, struct agent *agent) {
     if(!agentlist){
         return agent;
@@ -59,7 +60,6 @@ char *createTuple(char *eventoGatilho, char *contexto, char *corpo) {
     strcat(tuple, contexto);
     strcat(tuple, " <- ");
     strcat(tuple, corpo);
-    //printf("TUPLE: %s\n", tuple);
     return tuple;
 }
 
@@ -75,7 +75,6 @@ char *createExpression(char *name1, char *op, char *name2) {
         strcat(expression, op);
         strcat(expression, name2);
     }
-    //printf("EXPRESSION: %s\n", expression);
     return expression;
 }
 
@@ -91,7 +90,6 @@ char *createBody(char *body1, char *body2) {
         strcat(body, " ; ");
         strcat(body, body2);
     }
-    //printf("BODY: %s\n", body);
     return body;
 }
 
@@ -100,7 +98,6 @@ void printAgent(struct agent *agentlist) {
         return;
     }
     else{
-        //criar arquivo .asl 
         FILE *fp;
         fp = fopen(agentlist->name, "w");
         if (fp == NULL) {
@@ -108,7 +105,6 @@ void printAgent(struct agent *agentlist) {
             exit(1);
         }
 
-        //escrever no arquivo .asl
         //beliefs
         while(agentlist->beliefs){
             fprintf(fp, "%s.\n", agentlist->beliefs->beliefs);
@@ -126,6 +122,7 @@ void printAgent(struct agent *agentlist) {
             fprintf(fp, "%s\n", agentlist->plans->plans);
             agentlist->plans = agentlist->plans->next;
         }
+        printAgent(agentlist->next);
     }
 }
 
@@ -135,6 +132,16 @@ void yyerror(char *s, ...) {
     fprintf(stderr, "%d: error: ", yylineno);
     vfprintf(stderr, s, ap);
     fprintf(stderr, "\n");
+}
+
+void copyList(struct agent *agentlist) {
+    if(!agentlist){
+        return;
+    }
+    else{
+        listaAgentes = concatenateAgent(listaAgentes, agentlist);
+        copyList(agentlist->next);
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -154,6 +161,7 @@ int main(int argc, char *argv[]) {
         yyparse();
         fclose(f);        
     }
+    printAgent(listaAgentes);
     return 0;
 }
 
