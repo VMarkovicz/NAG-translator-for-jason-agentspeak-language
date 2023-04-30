@@ -49,8 +49,6 @@ struct plans *createPlan(char *plan1, struct plans *plan2) {
     plans->plans = plan1;
     plans->next = plan2;
     return plans;
-    
-    return agentlist;
 }
 
 char *createTuple(char *eventoGatilho, char *contexto, char *corpo) {
@@ -153,16 +151,7 @@ int main(int argc, char *argv[]) {
         }
         yyrestart(f);
         yylineno = 1;
-
-        free(beliefslist);
-        beliefslist = NULL;
-        free(goalslist);
-        goalslist = NULL;
-        free(planslist);
-        planslist = NULL;
-
         yyparse();
-        printAgent(agentlist);
         fclose(f);        
     }
     return 0;
