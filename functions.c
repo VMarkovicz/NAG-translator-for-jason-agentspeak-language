@@ -49,6 +49,8 @@ struct plans *createPlan(char *plan1, struct plans *plan2) {
     plans->plans = plan1;
     plans->next = plan2;
     return plans;
+    
+    return agentlist;
 }
 
 char *createTuple(char *eventoGatilho, char *contexto, char *corpo) {
@@ -59,7 +61,7 @@ char *createTuple(char *eventoGatilho, char *contexto, char *corpo) {
     strcat(tuple, contexto);
     strcat(tuple, " <- ");
     strcat(tuple, corpo);
-    printf("TUPLE: %s\n", tuple);
+    //printf("TUPLE: %s\n", tuple);
     return tuple;
 }
 
@@ -75,7 +77,7 @@ char *createExpression(char *name1, char *op, char *name2) {
         strcat(expression, op);
         strcat(expression, name2);
     }
-    printf("EXPRESSION: %s\n", expression);
+    //printf("EXPRESSION: %s\n", expression);
     return expression;
 }
 
@@ -91,7 +93,7 @@ char *createBody(char *body1, char *body2) {
         strcat(body, " ; ");
         strcat(body, body2);
     }
-    printf("BODY: %s\n", body);
+    //printf("BODY: %s\n", body);
     return body;
 }
 
@@ -151,7 +153,16 @@ int main(int argc, char *argv[]) {
         }
         yyrestart(f);
         yylineno = 1;
+
+        free(beliefslist);
+        beliefslist = NULL;
+        free(goalslist);
+        goalslist = NULL;
+        free(planslist);
+        planslist = NULL;
+
         yyparse();
+        printAgent(agentlist);
         fclose(f);        
     }
     return 0;
