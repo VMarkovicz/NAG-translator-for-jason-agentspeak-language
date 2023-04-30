@@ -29,6 +29,7 @@ struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goa
         aux->next = agentlist;
         agentlist = aux;
     }
+    
     return agentlist;
 }
 
@@ -44,7 +45,7 @@ struct beliefs *createBelief(char *belief1, struct beliefs *belief2) {
         aux->next = beliefslist;
         beliefslist = aux;
     }
-    printf("BELIEF: %s\n", beliefslist->name);
+    //printf("BELIEF: %s\n", beliefslist->name);
     return beliefslist;
 }
 
@@ -60,7 +61,7 @@ struct goals *createGoal(char *goal1, struct goals *goal2) {
         aux->next = goalslist;
         goalslist = aux;
     }
-    printf("GOAL: %s\n", goalslist->name);
+    //printf("GOAL: %s\n", goalslist->name);
     return goalslist;
 }
 
@@ -76,7 +77,7 @@ struct plans *createPlan(char *plan1, struct plans *plan2) {
         aux->next = planslist;
         planslist = aux;
     }
-    printf("PLAN: %s\n", planslist->name);
+    //printf("PLAN: %s\n", planslist->name);
     return planslist;
 }
 
@@ -88,7 +89,7 @@ char *concatenateTuple(char *eventoGatilho, char *contexto, char *corpo) {
     strcat(tuple, contexto);
     strcat(tuple, " <- ");
     strcat(tuple, corpo);
-    printf("TUPLE: %s\n", tuple);
+    //printf("TUPLE: %s\n", tuple);
     return tuple;
 }
 
@@ -104,7 +105,7 @@ char *concatenateExpression(char *name1, char *op, char *name2) {
         strcat(expression, op);
         strcat(expression, name2);
     }
-    printf("EXPRESSION: %s\n", expression);
+    //printf("EXPRESSION: %s\n", expression);
     return expression;
 }
 
@@ -120,8 +121,7 @@ char *concatenateBody(char *name1, char *name2) {
         strcat(body, " ; ");
         strcat(body, name2);
     }
- 
-    printf("BODY: %s\n", body);
+    //printf("BODY: %s\n", body);
     return body;
 }
 
@@ -185,7 +185,16 @@ int main(int argc, char *argv[]) {
 
         yyrestart(f);
         yylineno = 1;
+
+        free(beliefslist);
+        beliefslist = NULL;
+        free(goalslist);
+        goalslist = NULL;
+        free(planslist);
+        planslist = NULL;
+
         yyparse();
+        printAgent(agentlist);
         fclose(f);        
     }
     return 0;

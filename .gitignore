@@ -6,3 +6,4 @@ sintatic-analyzer.tab.c
 sintatic-analyzer.tab.h
 translator
 bob.asl
+ana.asl

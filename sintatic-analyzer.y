@@ -35,7 +35,7 @@
 %start agent;
 
 %%
-agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15); printAgent($$);}
+agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15); }
     ;
 Lcrencas: /*Vazio*/ { $$ = NULL; }
     | nomeCrenca ';' Lcrencas    { $$ = createBelief($1, $3); }
