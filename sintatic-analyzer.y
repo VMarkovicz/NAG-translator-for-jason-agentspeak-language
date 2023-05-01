@@ -13,13 +13,13 @@
     char *name;
 }
 
-%token <name>NAME
-%token <name>CRENCA
-%token <name>OBJETIVO
-%token <name>PLANO
-%token <name>E
-%token <name>OU
-%token <name>NAO
+%token <name> NAME
+%token <name> CRENCA
+%token <name> OBJETIVO
+%token <name> PLANO
+%token <name> E
+%token <name> OU
+%token <name> NAO
 
 %type <agent> agentlist
 %type <agent> agent
