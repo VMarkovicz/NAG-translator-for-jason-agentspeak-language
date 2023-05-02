@@ -1,0 +1,23 @@
+<agentlist> ::= empty 
+            | agent agentlist;
+<agent> ::= NAME CRENCA':' '{' <Lcrencas> '}' OBJETIVO':' '{' <Lobjetivos> '}' PLANO':' '{' <Lplanos> '}';
+<Lcrencas> ::= empty 
+            | <nomeCrenca> ';' <Lcrencas>;
+<nomeCrenca> ::= NAME;
+<Lobjetivos> ::= empty 
+            | <nomeObjetivo> ';' <Lobjetivos>;
+<nomeObjetivo> ::= NAME;
+<Lplanos> ::= empty 
+            | <nomePlano> ';' <Lplanos>;
+<nomePlano> ::= NAME <tuplaPlano>;
+<tuplaPlano> ::= '(' <eventoGatilho> ';' <contexto> ';' '{' <corpo> '}' ')';
+<eventoGatilho> ::= NAME;
+<contexto> ::= empty 
+            | <expressaoLogica> 
+            | NAME;
+<expressaoLogica> ::= NAME E NAME 
+            | NAME OU NAME 
+            | NAO NAME;
+<corpo> ::= empty 
+            | <formulasCorpo> ';' <corpo>;
+<formulasCorpo> ::= NAME;

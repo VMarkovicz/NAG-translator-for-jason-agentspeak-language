@@ -37,7 +37,7 @@
 
 %%
 agentlist: /*Vazio*/ { $$ = NULL; }
-    | agent agentlist { $$ = concatenateAgent($1, $2); copyList($$); }
+    | agent agentlist { $$ = concatenateAgent($1, $2); }
     ;
 agent:NAME CRENCA':' '{' Lcrencas '}' OBJETIVO':' '{' Lobjetivos '}' PLANO':' '{' Lplanos '}'   { $$ = createAgent($1, $5, $10, $15); }
     ;
@@ -58,18 +58,18 @@ nomePlano: NAME tuplaPlano { $$ = $2; }
     ;
 tuplaPlano: '('eventoGatilho';'contexto';' '{' corpo '}' ')' { $$ = createTuple($2, $4, $7); }
     ;
-eventoGatilho: NAME { $$ = $1; }   //sem :
+eventoGatilho: NAME { $$ = $1; }
     ;
 contexto: /*Vazio*/     { $$ = NULL;}
-    | expressaoLogica   { $$ = $1; }    //sem ;
-    | NAME              { $$ = $1; }    //sem ;
+    | expressaoLogica   { $$ = $1; }
+    | NAME              { $$ = $1; }
     ;
 expressaoLogica: NAME E NAME { $$ = createExpression($1, " & ", $3); }
         | NAME OU NAME { $$ = createExpression($1, " | ", $3); }
         | NAO NAME { $$ = createExpression(NULL, "not ", $2); }
     ;               
 corpo: /*Vazio*/ { $$ = NULL; }
-    | formulasCorpo ';' corpo   { $$ = createBody($1, $3); }   //com ; e . mas sem {}
+    | formulasCorpo ';' corpo   { $$ = createBody($1, $3); }
     ;
 formulasCorpo: NAME { $$ = $1; }
     ;
