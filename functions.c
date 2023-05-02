@@ -86,12 +86,11 @@ struct agent *createAgent(char *name, struct beliefs *beliefs, struct goals *goa
 }
 
 struct agent *concatenateAgent(struct agent *agent, struct agent *agentlist) {
+    copyList(agent);
     if(!agentlist){
-        copyList(agent);
         return agent;
     }
     else{
-        copyList(agent);
         struct agent *aux = agent;
         aux->next = agentlist;
         return aux;
