@@ -2,4 +2,3 @@ translate.asl
 sintatic-analyzer.lex.c
 sintatic-analyzer.tab.c
 sintatic-analyzer.tab.h
-translator
