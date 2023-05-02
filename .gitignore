@@ -1,9 +1,3 @@
-bob.txt
-bob.asl
-joao.txt
-joao.asl
-jorge.txt
-jorge.asl
 translate.asl
 sintatic-analyzer.lex.c
 sintatic-analyzer.tab.c

@@ -1,0 +1,6 @@
+jorge crencas: {estaAtrasado; estaComFome;}
+objetivos: {chegarNoTrabalhoNaHora; comerAlgumaCoisa; serProdutivo;}
+planos: {plano1 (chegarNoTrabalhoNaHora; NAO estaAtrasado; {sair; pegarOnibus;}) ;
+plano2 (chegarNoTrabalhoNaHora; estaAtrasado; {sair; pegarTaxi;}) ;
+plano3 (comerAlgumaCoisa; estaComFome; {sair; encontrarRestaurante; pedirComida;}) ;
+plano4 (serProdutivo; NAO estaComFome; {trabalhar; focarNasTarefas;}) ;}

@@ -1,0 +1,6 @@
+joao crencas: { estaEnsolarado ; tenhoTempoLivre ; }
+objetivos: { pegarUmBronzeado ; aproveitarOdia ; }
+planos: { plano1 ( pegarUmBronzeado ; estaEnsolarado E tenhoTempoLivre ;
+{ irParaAPraia; passarProtetorSolar; deitarNoSol; } ) ;
+plano2 ( aproveitarOdia ; NAO estaEnsolarado ; { sair; encontrarUmLugarCoberto ; fazerAlgumaAtividadeInterna; } ) ;
+plano3 ( aproveitarOdia ; estaEnsolarado E tenhoTempoLivre ; { sairPorUmTempoLimitado ; aproveitarOQuePuder ; } ) ; }
